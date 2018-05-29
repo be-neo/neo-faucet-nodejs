@@ -4,8 +4,10 @@
   "description": "A dockerized, nodejs version of neo-faucet",
   "main": "server.js",
   "scripts": {
-    "build": "npx webpack",
-    "start": "npm run build && node dist/server",
+    "build": "yarn build:server && build:client",
+    "build:client": "npx webpack --config ./webpack.config.js",
+    "build:server": "npx babel ./src/server.js -d build",
+    "start": "npm run build && node build/server",
     "dev:start": "onchange 'src/**/*.js' -- npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +34,7 @@
   },
   "homepage": "https://github.com/be-neo/neo-faucet-nodejs#readme",
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.49",
     "@babel/polyfill": "^7.0.0-beta.49",
     "antd": "^3.5.4",
     "axios": "^0.18.0",
@@ -47,8 +50,7 @@
     "babel-loader": "^8.0.0-beta",
     "json-loader": "^0.5.7",
     "onchange": "^4.0.0",
-    "webpack": "^4.9.1",
-    "webpack-cli": "^2.1.4",
+    "webpack": "^3.11.0",
     "webpack-node-externals": "^1.7.2"
   }
 }
