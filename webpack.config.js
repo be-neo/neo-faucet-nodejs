@@ -1,12 +1,12 @@
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: './src/client/index.js',
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'assets'),
     filename: 'bundle.js'
   },
   module: {
@@ -14,10 +14,11 @@ module.exports = {
       {
         test: /.js$/,
         loader: 'babel-loader',
-        include: path.join(__dirname, 'app'),
+        include: path.join(__dirname, 'src'),
         exclude: /node_modules/,
         query: {
-          presets: ['@babel/preset-env', '@babel/preset-react']
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: ["@babel/plugin-proposal-class-properties"]
         }
       }
     ]
