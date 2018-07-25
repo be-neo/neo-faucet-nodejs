@@ -28,15 +28,19 @@ const faucetStatus = async (neoscanAddress, faucetAddress) => {
     }
   });
 
-  if (gasStatus) {
+  if (!gasStatus) {
     const config = {
       net: 'Faucet',
       address: faucet.address,
       privateKey: faucet.privateKey
     };
 
-    const { response: { result, txid } } = api.claimGas(config, api.neoscan);
-    console.log(`[GAS CLAIM ${Date.now()}]: ${result} tx ${txid}`);
+    try {
+      const { response: { result, txid } } = await api.claimGas(config, api.neoscan);
+      console.log(`[GAS CLAIM ${Date.now()}]: ${result} tx ${txid}`);
+    } catch (e) {
+      console.log('GAS already claimed.');
+    }
   }
 
   return neoStatus && gasStatus;
