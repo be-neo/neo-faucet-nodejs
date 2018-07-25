@@ -17,7 +17,9 @@ export default class AddressForm extends React.Component {
     this.state = {
       status: faucetStatuses[0],
       address: '',
-      wif: ''
+      generatedAddress: '',
+      wif: '',
+      tx: '',
     };
   }
 
@@ -29,25 +31,35 @@ export default class AddressForm extends React.Component {
 
   request = async () => {
     this.setState({ status: faucetStatuses[1] })
-    // const { status } = await get(`${this.props.config.faucetSite}/request/${this.state.address}`);
-    // if (status === 200) {
-    //   this.setState({ status: faucetStatuses[3] });
-    // } else {
-    //   this.setState({ status: faucetStatuses[4] });
-    // }
+    try {
+      const { status, data } = await get(`${this.props.config.faucetSite}/request/${this.state.address}`);
+      if (status === 200) {
+        this.setState({ status: faucetStatuses[3], tx: data });
+      } else {
+        this.setState({ status: faucetStatuses[4] });
+      }
+    } catch(e) {
+      this.setState({ status: faucetStatuses[5] });
+    }
   }
 
   generate = async () => {
     this.setState({ status: faucetStatuses[2] })
-    // const { status } = await get(`${this.props.config.faucetSite}/generate`);
-    // if (status === 200) {
-    //   this.setState({ status: faucetStatuses[3] });
-    // } else {
-    //   this.setState({ status: faucetStatuses[5] });
-    // }
+    const { status, data } = await get(`${this.props.config.faucetSite}/generate`);
+    if (status === 200) {
+      this.setState({ status: faucetStatuses[3], ...data });
+    } else {
+      this.setState({ status: faucetStatuses[5] });
+    }
   }
 
   render() {
+    let successMessage;
+    if (this.state.status === faucetStatuses[3]) {
+      successMessage = this.state.wif !== ''
+        ? `Congratulations! Your address is ${this.state.generatedAddress} and your WIF is ${this.state.wif}, look for the following tx: ${this.state.tx}. Happy developing!`
+        : `Congratulations, look for the following tx: ${this.state.tx}. Happy developing!`;
+    }
     return(
       <Row>
         <Col xs={{ span: 20, push: 2 }} md={{ span: 16, push: 4 }} lg={{ span: 12, push: 6 }} xl={{ span: 8, push: 8 }} >
@@ -84,13 +96,12 @@ export default class AddressForm extends React.Component {
                 showIcon
                 style={{ margin: '16px 0' }}
               />
-              
             </React.Fragment>
           )}
           {this.state.status === faucetStatuses[3] && (
             <Alert
               message="Funded! 🎉"
-              description="Congratulations! Happy developing!"
+              description={successMessage}
               type="success"
               showIcon
               style={{ margin: '16px 0' }}
@@ -118,14 +129,14 @@ export default class AddressForm extends React.Component {
             {
               this.state.status === faucetStatuses[0] || this.state.status === faucetStatuses[4]
               ? <Button type="primary" onClick={this.generate} style={{ marginRight: '8px' }}>Generate</Button>
-              : this.state.status === faucetStatuses[2] 
+              : this.state.status === faucetStatuses[2]
                 ? <Button type="primary" loading disabled style={{ marginRight: '8px' }}>Requesting</Button>
                 : <Button type="primary" disabled style={{ marginRight: '8px' }}>Request</Button>
             }
             {
               this.state.status === faucetStatuses[0] || this.state.status === faucetStatuses[4]
               ? <Button type="primary" onClick={this.request}>Request</Button>
-              : this.state.status === faucetStatuses[1] 
+              : this.state.status === faucetStatuses[1]
                 ? <Button type="primary" loading disabled>Requesting</Button>
                 : <Button type="primary" disabled>Request</Button>
             }

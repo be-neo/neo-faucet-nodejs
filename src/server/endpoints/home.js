@@ -14,7 +14,7 @@ export default async (req, res) => {
   const sheet = new ServerStyleSheet();
 
   const status = await faucetStatus(neoscanAddress, faucet.address);
-  const { data: { height } } = await get(`${neoscanAddress}/get_height`);
+  const { data: { height } } = await get(`${neoscanAddress}/v1/get_height`);
   const config = {
     gasReward,
     minBlocks,

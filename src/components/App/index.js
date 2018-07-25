@@ -38,7 +38,7 @@ export default class App extends React.Component {
         <Header style={{ textAlign: 'center', backgroundColor: '#f0f2f5' }}>
           <h1>⛽ neo-local Faucet</h1>
         </Header>
-        <Content style={{ padding: '0 50px' }}>
+        <Content style={{ padding: '0' }}>
           <Layout>
             <Content style={{ backgroundColor: '#ffffff', padding: 32, minHeight: 'calc(100vh - 133px)' }}>
               <FaucetStatus config={this.state} />
