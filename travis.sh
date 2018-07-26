@@ -6,11 +6,14 @@ REPO=neobelgium/neo-local-faucet
 
 set -e
 
-docker login -u $DOCKER_USER -p $DOCKER_PASS
-docker build -f Dockerfile -t $REPO:latest .
-docker tag $REPO:latest $REPO:$VERSION
-docker push $REPO
-git checkout master
-git pull origin master
-git tag $VERSION
-git push origin $BRANCH --tags
+if [[ $TRAVIS_BRANCH == 'master' ]]
+then
+  docker login -u $DOCKER_USER -p $DOCKER_PASS
+  docker build -f Dockerfile -t $REPO:latest .
+  docker tag $REPO:latest $REPO:$VERSION
+  docker push $REPO
+  git checkout master
+  git pull origin master
+  git tag $VERSION
+  git push origin $BRANCH --tags
+fi
