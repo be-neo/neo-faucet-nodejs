@@ -2,7 +2,7 @@
 # Script that Travis CI will run to test the project, it is conditional on the branch.
 
 VERSION=$(<./VERSION)
-REPO=neobelgium/neo-local-faucet
+REPO=CityOfZion/neo-local-faucet
 
 set -e
 
