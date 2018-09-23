@@ -6,7 +6,7 @@ Thank you for wanting to contribute to `neo-local-faucet` and taking your time t
 
 ## Reporting Bugs
 
-Well-written bug reports with consistently reproducible steps are invaluable to the development of nOS. Bugs are tracked as GitHub issues. Before creating an issue, please perform a search to see if the problem has already been reported. After you've determined a bug does not already exist, create an issue and fill in the template.
+Well-written bug reports with consistently reproducible steps are invaluable to the development of this project. Bugs are tracked as GitHub issues. Before creating an issue, please perform a search to see if the problem has already been reported. After you've determined a bug does not already exist, create an issue and fill in the template.
 
 ## Suggesting Enhancements
 
